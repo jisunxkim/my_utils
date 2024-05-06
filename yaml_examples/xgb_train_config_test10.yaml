@@ -1,0 +1,199 @@
+MODEL_VERSION: xgb_fv2_2_all_features_medium_plus_tuned_08132023_081548_final_best_params
+MODEL_ID_PREFIX: temp_model
+NOTE: Full train - test10-1 remove projected_demand
+
+BUCKET: jskim
+
+HYPER_PARAMETERS_BLOB: dailyemail_v4_7_medium_plus_v2_2/best_params_nfile50_pmiter500_xgb_fv2_2_all_features_medium_plus_08132023_081548.pkl
+# HYPER_PARAMETERS_BLOB: dailyemail_v4_7_medium_plus_v2_2/best_params_nfile10_pmiter300_xgb_fv2_2_all_features_tuning_07252023_114358.pkl
+# TRAIN_DATA_BLOB: dailyemail_v4_7__very_large_v2_2/train_data/train_data__very_large_v2_2 
+TRAIN_DATA_BLOB: dailyemail_v4_7_medium_plus_v2_2/train_data/train_data__medium_plus_v2_2
+TEST_DATA_BLOB: dailyemail_v4_7_random_test/feature_v2_2_632k/test_data__v2_2_jan_2023
+
+# PREVIOUS_MODEL_BLOB:
+#dailyemail_v4_7_medium_plus_v2_2/trained_models/trained_model_xgboost_medium_plus_v2_2_20230520_0852.joblib
+#dailyemail_v4_7_medium_plus_v2_2/trained_model_temp_xgb_fv2_2_all_features_medium_plus_07252023_130352.pickle
+PREVIOUS_MODEL_BLOB: #dailyemail_v4_7_medium_plus_v2_2/trained_model_temp_xgb_fv2_2_all_features_medium_plus_07252023_130352.pickle
+
+# PREVIOUS_MODEL_TYPE: joblib # model file type can be joblib, pickle, or xgb 
+PREVIOUS_MODEL_TYPE: pickle
+# ARTIFACT_BLOB: dailyemail_v4_7__very_large_v2_2
+ARTIFACT_BLOB: dailyemail_v4_7_medium_plus_v2_2
+UPLOAD_MODEL: true
+REMOVE_LOCAL_TEMP_MODEL: true
+
+# Feature engineering
+FEATURE_MODIFICATION: true
+
+# strings data to numerical
+# part of feature modification
+LABEL_ENCODER_COLS: [
+ 'rfm_segment'
+]
+
+# numberical data to categorical
+# part of feature modification
+CATEGORICAL_COLS: [
+ 'rfm_segment',
+ 'event_top_ppt',
+ 'zipcode_cluster',
+ 'zipcode_first_digit',
+ 'email_month'
+]
+
+# cols to drop for train_x
+# droping w/ or w/o feature modification
+COLS_TO_DROP: [
+ 'customer_id',
+ 'event_id',
+ 'as_of_date',
+ 'send_date',
+ 'as_of_date_timestamp',
+ 'class',
+ 'label_multi',
+ 'label_78',
+ 'label_8',
+ 'customer_top_order_brands_vect',
+ 'event_top_order_brands_vect',
+ ####
+ 'segment',
+ 'predict',
+ ####
+ 'projected_demand',
+ ####
+ # 'rfm_segment', # remove this if not categorical defined
+ ####
+ 'conversion_rate_pageview_sqrt',
+ 'conversion_rate_pageview_sq',
+ 'conversion_rate_impression_sqrt',
+ 'conversion_rate_impression_sq',
+ 'cust_event_agegroup_overlap_365day',
+ 'cust_event_agegroup_overlap_365day_sq',
+ 'cust_event_agegroup_overlap_365day_sqrt',
+ 'cust_event_agegroup_overlap_30day',
+ 'cust_event_agegroup_overlap_30day_sq',
+ 'cust_event_agegroup_overlap_30day_sqrt',
+ 'cust_event_agegroup_overlap_10day',
+ 'cust_event_agegroup_overlap_10day_sq',
+ 'cust_event_agegroup_overlap_10day_sqrt',
+ 'cust_eventpage_clicks__ppt_overlap_365day',
+ 'cust_eventpage_clicks__ppt_overlap_365day_sq',
+ 'cust_eventpage_clicks__ppt_overlap_365day_sqrt',
+ 'cust_eventpage_clicks__ppt_overlap_30day',
+ 'cust_eventpage_clicks__ppt_overlap_30day_sq',
+ 'cust_eventpage_clicks__ppt_overlap_30day_sqrt',
+ 'cust_eventpage_clicks__ppt_overlap_10day',
+ 'cust_eventpage_clicks__ppt_overlap_10day_sq',
+ 'cust_eventpage_clicks__ppt_overlap_10day_sqrt',
+ 'funneldepth_per_eventtype_365day',
+ 'funneldepth_per_eventtype_365day_sq',
+ 'funneldepth_per_eventtype_365day_sqrt',
+ 'funneldepth_per_eventtype_30day',
+ 'funneldepth_per_eventtype_30day_sq',
+ 'funneldepth_per_eventtype_30day_sqrt',
+ 'funneldepth_per_eventtype_10day',
+ 'funneldepth_per_eventtype_10day_sq',
+ 'funneldepth_per_eventtype_10day_sqrt',
+ 'cust_event_gendergroup_overlap_365day',
+ 'cust_event_gendergroup_overlap_365day_sq',
+ 'cust_event_gendergroup_overlap_365day_sqrt',
+ 'cust_event_gendergroup_overlap_30day',
+ 'cust_event_gendergroup_overlap_30day_sq',
+ 'cust_event_gendergroup_overlap_30day_sqrt',
+ 'cust_event_gendergroup_overlap_10day',
+ 'cust_event_gendergroup_overlap_10day_sq',
+ 'cust_event_gendergroup_overlap_10day_sqrt',
+ 'cust_orders__ppt_overlap_365day',
+ 'cust_orders__ppt_overlap_365day_sq',
+ 'cust_orders__ppt_overlap_365day_sqrt',
+ 'cust_orders__ppt_overlap_30day',
+ 'cust_orders__ppt_overlap_30day_sq',
+ 'cust_orders__ppt_overlap_30day_sqrt',
+ 'cust_orders__ppt_overlap_10day',
+ 'cust_orders__ppt_overlap_10day_sq',
+ 'cust_orders__ppt_overlap_10day_sqrt',
+ 'cust_event_product_style_clicks_orders_per_ppt_10_sq',
+ 'cust_event_product_style_clicks_orders_per_ppt_10_sqrt',
+ 'cust_event_product_style_clicks_orders_per_ppt_30_sq',
+ 'cust_event_product_style_clicks_orders_per_ppt_30_sqrt',
+ 'cust_event_product_style_clicks_orders_per_ppt_365_sq',
+ 'cust_event_product_style_clicks_orders_per_ppt_365_sqrt',
+ 'cust_product_style_clicks__ppt_overlap_10day',
+ 'cust_product_style_clicks__ppt_overlap_10day_sq',
+ 'cust_product_style_clicks__ppt_overlap_10day_sqrt',
+ 'cust_product_style_clicks__ppt_overlap_30day',
+ 'cust_product_style_clicks__ppt_overlap_30day_sq',
+ 'cust_product_style_clicks__ppt_overlap_30day_sqrt',
+ 'cust_product_style_clicks__ppt_overlap_365day',
+ 'cust_product_style_clicks__ppt_overlap_365day_sq',
+ 'cust_product_style_clicks__ppt_overlap_365day_sqrt'
+]
+    
+Y_LABEL_COL: label_578
+
+# using label_multi column assign sample weights
+LABEL_MULTI_WEIGHT:
+ 0: 1
+ 5: 3
+ 7: 3
+ 8: 3
+
+USE_SAMPLE_WEIGHT: true # true, false
+
+# drop some events
+DROP_EVENTS: [
+    '0'
+    ]
+    
+# Overriding Parameters on manual or loaded hyperparams
+OVERRIDE_PARAMS:
+ enable_categorical: true  # true, false
+ # objective: binary:logistic
+ eval_metric: ['aucpr', 'logloss']
+ early_stopping_rounds: 50 # 50
+ # tree_method: hist # approx, hist, gpu_hist
+ n_jobs: 30 # number of cpus the model training by
+ colsample_bytree: 1.0
+ # gamma: 1
+ # learning_rate: 0.01
+ # max_depth: 40
+ # min_child_weight: 20
+ # n_estimators: 600
+ # reg_alpha: 0.4
+ # reg_lambda: 
+ scale_pos_weight: 4
+ subsample: 1
+ 
+N_CPUS: 30 # 30 number of multiprocessing pools to load data blobs
+
+# Batch Runs
+N_FILES_IN_BATCH: 250 # 500 200 100, 300
+MAX_N_FILES:  # blank if all
+N_FILES_EACH_LOADING: 9 # 20  5 num of dataframe to merge 
+TOTAL_FILES_TO_TEST:  # blank if all 
+
+# Cross Valiation
+CV_MODEL_SCORE: roc_auc # roc_auc balanced_accuracy 
+N_CV: 5 # Num of folds for cross validations
+N_VALID_OUTPUT: 5 # number of validation results to print each batch
+
+# Model Hyper Parameters
+# manual parameters setting, empty HYPER_PARAMETERS_BLOB above
+PARAMS: 
+ n_estimators: 400
+ learning_rate: 0.08
+ max_depth: 40 # common 3-10
+ subsample: 1.0
+ colsample_bytree: 1.0
+ min_child_weight: 5.0
+ gamma: 1.0
+ reg_lambda: 0.0 # L2 regularization
+ reg_alpha: # L1 regularization
+ tree_method: auto #auto, approx, hist, gpu_hist
+ objective: binary:logistic
+ eval_metric: logloss
+ early_stopping_rounds: 50
+ n_jobs: 4
+
+VERBOSE: 3
+EVAL_VERBOSE: False
